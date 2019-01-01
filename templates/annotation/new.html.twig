@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Annotation{% endblock %}
+
+{% block body %}
+    <h1>Create new Annotation</h1>
+
+    {{ include('annotation/_form.html.twig') }}
+
+    <a href="{{ path('annotation_index') }}">back to list</a>
+{% endblock %}

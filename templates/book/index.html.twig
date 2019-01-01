@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Books{% endblock %}
+
+{% block body %}
+    <h1>Books</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>BookId</th>
+                <th>OriginalTitle</th>
+                <th>Title</th>
+                <th>Edition</th>
+                <th>Year</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for book in books %}
+            <tr>
+                <td>{{ book.bookId }}</td>
+                <td>{{ book.originalTitle }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.edition }}</td>
+                <td>{{ book.year }}</td>
+                <td>
+                    <a href="{{ path('book_show', {'bookId': book.bookId}) }}">show</a>
+                    <a href="{{ path('book_edit', {'bookId': book.bookId}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('book_new') }}">Create new</a>
+{% endblock %}

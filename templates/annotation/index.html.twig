@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annotation index{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-3">
+            <div  id="left-column">
+                <h1>Annotations</h1>
+                <div id="container-tree">
+                    <ul>
+                    {% for authorId,groupedAnnotation in groupedAnnotations %}
+                        <li data-target="#author-{{ authorId }}">{{ authors[authorId] }}        
+                            <ul>
+                                {% for bookId,pages in groupedAnnotation %}
+                                    <li data-target="#book-{{ bookId }}">{{ books[bookId].title }}
+                                        <ul>
+                                            {% for page,annotation in pages %}
+                                                <li data-target="#annotation-{{ annotation.annotationId }}">{{ page }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+                <div>
+                    <a href="/book/" class="btn btn-info">Books</a>
+                    <a href="/author/" class="btn btn-info">Authors</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-9">
+        {% for authorId,groupedAnnotation in groupedAnnotations %}
+            <h2 id="author-{{ authorId }}">{{ authors[authorId].fullname }}</h2>
+            {% for bookId,pages in groupedAnnotation %}
+                <h3 id="book-{{ bookId }}">{{ books[bookId].title }}</h3>
+                <a href="{{ path('annotation_new', {'bookId':bookId}) }}">New Annotation</a>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Page</th>
+                            <th>Quote</th>
+                            <th>Note</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for page,annotation in pages %}
+                            <tr id="annotation-{{ annotation.annotationId }}">
+                                <td>{{ annotation.page }}</td>
+                                <td>{{ annotation.quote }}</td>
+                                <td>{{ annotation.note }}</td>
+                                <td>
+                                    <a href="{{ path('annotation_edit', {'annotationId': annotation.annotationId}) }}">edit</a>
+                                    <a href="{{ path('annotation_delete', {'annotationId': annotation.annotationId}) }}">delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+            {% endfor %}
+        {% endfor %}
+        
+    <a href="{{ path('annotation_new') }}">Create new</a>
+    </div></div>
+    <script>
+        
+    </script>
+{% endblock %}
